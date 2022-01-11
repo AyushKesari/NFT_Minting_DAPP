@@ -1,0 +1,65 @@
+require('dotenv').config()
+const mnemonic = process.env.MNEMONIC
+const clientURL = process.env.ETH_CLIENT_URL
+
+var HDWalletProvider = require("@truffle/hdwallet-provider");
+var Mnemonic = "ecfb761388850566960021911c1d34481ed14e72ebd977a4f3d9f082b53594e9";
+module.exports = {
+ networks: {
+  development: {
+   host: "127.0.0.1",
+   port: 8545,
+   network_id: "*"
+  },
+  rinkeby: {
+   provider: function() {
+    return new HDWalletProvider(Mnemonic,    "https://rinkeby.infura.io/v3/9f9f94f7801148439d1e9afb53111322");
+   },
+   network_id: 4,
+   gas: 4500000,
+   gasPrice: 10000000000,
+  },
+  matic: {
+    provider: () => new HDWalletProvider(mnemonic, clientURL),
+    network_id: 137,
+    confirmations: 2,
+    timeoutBlocks: 200,
+    skipDryRun: true,
+    gas: 8500000,
+    gasPrice:40000000000, // 40 gwei
+  },
+},
+ 
+ 
+  
+
+
+ 
+  
+
+
+  // Configure your compilers
+  contracts_build_directory: "./src/contracts/",
+  compilers: {
+    solc: {
+      version: "0.8.0", // Fetch exact version from solc-bin (default: truffle's version)
+      settings: {
+        // See the solidity docs for advice about optimization and evmVersion
+        optimizer: {
+          enabled: true,
+          runs: 200,
+        },
+      },
+    },
+  },
+
+  // Truffle DB is currently disabled by default; to enable it, change enabled: false to enabled: true
+  //
+  // Note: if you migrated your contracts prior to enabling this field in your Truffle project and want
+  // those previously migrated contracts available in the .db directory, you will need to run the following:
+  // $ truffle migrate --reset --compile-all
+
+  db: {
+    enabled: false,
+  },
+};
